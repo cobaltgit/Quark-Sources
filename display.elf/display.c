@@ -121,7 +121,24 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    const char* text = argv[optind];
+    size_t total_length = 0;
+    for (int i = optind; i < argc; i++) {
+        total_length += strlen(argv[i]) + 1;
+    }
+
+    char *text = malloc(total_length + 1);
+    if (text == NULL) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return 1;
+    }
+
+    text[0] = '\0';
+    for (int i = optind; i < argc; i++) {
+        strcat(text, argv[i]);
+        if (i < argc - 1) {
+            strcat(text, " ");
+        }
+    }
 
     putenv("SDL_VIDEO_FBCON_ROTATION=CCW");
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
