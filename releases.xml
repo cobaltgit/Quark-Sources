@@ -6,7 +6,7 @@
     <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0.zip.sha256</sha256>
   </image>
   <image>
-    <version>v1.4.0 "Effusion" FULL</version>
+    <version>Quark v1.4.0 "Effusion" FULL</version>
     <url>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0-FULL.zip</url>
     <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0-FULL.zip.sha256</sha256>
   </image>
