@@ -4,7 +4,7 @@ PRODUCT = $(TARGET).elf
 CROSS_COMPILE ?= arm-linux-
 CC = $(CROSS_COMPILE)gcc
 
-CPUFLAGS = -mcpu=cortex-a7 -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
+CPUFLAGS = -march=armv7-a -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard
 CFLAGS = -Os -lSDL -lSDL_ttf -lSDL_image -lrt -ldl -Wl,--gc-sections -s $(CPUFLAGS)
 
 all:
