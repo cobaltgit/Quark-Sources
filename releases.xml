@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <images>
   <image>
-    <version>Quark v1.4.0 "Effusion" BASE</version>
+    <version>Latest Base</version>
     <url>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0.zip</url>
     <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0.zip.sha256</sha256>
   </image>
   <image>
-    <version>Quark v1.4.0 "Effusion" FULL</version>
+    <version>Latest Full</version>
     <url>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0-FULL.zip</url>
     <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0-FULL.zip.sha256</sha256>
   </image>
