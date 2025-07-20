@@ -2,12 +2,12 @@
 <images>
   <image>
     <version>Latest Base</version>
-    <url>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0.zip</url>
-    <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0.zip.sha256</sha256>
+    <url>https://github.com/cobaltgit/Quark/releases/download/v1.5.0/Quark-v1.5.0-BASE.zip</url>
+    <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.5.0/Quark-v1.5.0-BASE.zip.sha256</sha256>
   </image>
   <image>
     <version>Latest Full</version>
-    <url>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0-FULL.zip</url>
-    <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.4.0/Quark-v1.4.0-FULL.zip.sha256</sha256>
+    <url>https://github.com/cobaltgit/Quark/releases/download/v1.5.0/Quark-v1.5.0-FULL.zip</url>
+    <sha256>https://github.com/cobaltgit/Quark/releases/download/v1.5.0/Quark-v1.5.0-FULL.zip.sha256</sha256>
   </image>
 </images>
