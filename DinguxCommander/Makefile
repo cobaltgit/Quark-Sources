@@ -10,7 +10,7 @@ SDL_CONFIG := $(shell $(CXX) -print-sysroot)/usr/bin/sdl-config
 CXXFLAGS += $(shell $(SDL_CONFIG) --cflags)
 
 CXXFLAGS += -DPATH_DEFAULT=\"/mnt/SDCARD\"
-CXXFLAGS += -DFILE_SYSTEM=\"/dev/mmcblk0p1\"
+CXXFLAGS += -DFILE_SYSTEM=\"/dev/mmcblk1p1\"
 CXXFLAGS += -DCMDR_KEY_UP=SDLK_UP
 CXXFLAGS += -DCMDR_KEY_RIGHT=SDLK_RIGHT
 CXXFLAGS += -DCMDR_KEY_DOWN=SDLK_DOWN
