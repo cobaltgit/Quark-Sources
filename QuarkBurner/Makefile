@@ -1,17 +1,12 @@
-TARGET := QuarkBurner
-NUITKAFLAGS := --onefile --standalone --python-flag=nosite,-O \
-	--plugin-enable=tk-inter,anti-bloat,implicit-imports,upx --assume-yes-for-downloads \
-	--lto=yes --remove-output --show-progress --show-modules
-BUILD_ENV = .build_env
+DOCKER_IMAGE = quark-burner-build
 
 all: build
 
 env:
-	python -m venv $(BUILD_ENV)
-	$(BUILD_ENV)/bin/pip install -U nuitka
+	docker build -t $(DOCKER_IMAGE) .
 
 build: env
-	$(BUILD_ENV)/bin/python -m nuitka $(NUITKAFLAGS) --output-filename=$(TARGET) $(TARGET).py
+	docker run --rm -v $(shell pwd):/app -v $(shell pwd)/dist:/app/dist $(DOCKER_IMAGE)
 
 clean:
-	rm -rf $(TARGET)
+	rm -rf QuarkBurner.bin

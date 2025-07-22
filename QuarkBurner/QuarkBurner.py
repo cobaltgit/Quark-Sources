@@ -9,6 +9,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import datetime
 import base64
+import certifi
 import threading
 import subprocess
 import os
@@ -21,6 +22,7 @@ import zipfile
 import time
 import tempfile
 import re
+import ssl
 import json
 import shutil
 
@@ -34,7 +36,7 @@ class SDFlasherGUI:
         self.root.title("Quark Burner")
         self.root.geometry("800x600")
         self.root.resizable(False, False)
-        
+
         # Variables
         self.selected_disk = tk.StringVar()
         self.selected_image = tk.StringVar()
@@ -65,6 +67,12 @@ class SDFlasherGUI:
         
         row = 0
         
+        # SSL context
+        ssl_context = ssl.create_default_context(cafile=certifi.where())
+        https_handler = urllib.request.HTTPSHandler(context=ssl_context)
+        opener = urllib.request.build_opener(https_handler)
+        urllib.request.install_opener(opener)
+
         # Logo section
         try:
             logo_data = base64.b64decode(LOGO_BASE64.strip())
@@ -294,8 +302,9 @@ class SDFlasherGUI:
                 self.root.after(0, self.update_image_list)
                 
             except Exception as e:
-                self.root.after(0, lambda: self.log(f"Error loading XML: {str(e)}"))
-                self.root.after(0, lambda: messagebox.showerror("Error", f"Failed to load XML: {str(e)}"))
+                log_str = f"Error loading XML: {str(e)}"
+                self.root.after(0, lambda: self.log(log_str))
+                self.root.after(0, lambda: messagebox.showerror("Error", log_str))
             finally:
                 self.root.after(0, lambda: self.update_progress(0, "Ready"))
         
