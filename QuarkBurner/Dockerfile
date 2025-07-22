@@ -8,9 +8,7 @@ RUN apt-get update && apt-get install -y \
     tcl-dev \
     tk-dev \
     python3-tk \
-    git \
     libc6-dev \
-    build-essential \
     wget \
     xz-utils \
     patchelf \
