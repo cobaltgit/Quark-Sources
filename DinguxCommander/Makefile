@@ -5,7 +5,7 @@
 
 CROSS_COMPILE ?= arm-linux-
 CXX := $(CROSS_COMPILE)g++
-CXXFLAGS := -Os -marm -mcpu=cortex-a7 -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -Wl,--gc-sections
+CXXFLAGS := -Os -marm -mcpu=cortex-a7 -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -flto -Wl,--gc-sections -s
 SDL_CONFIG := $(shell $(CXX) -print-sysroot)/usr/bin/sdl-config
 CXXFLAGS += $(shell $(SDL_CONFIG) --cflags)
 
@@ -35,7 +35,7 @@ RESDIR := res
 CXXFLAGS += -DRESDIR="\"$(RESDIR)\""
 
 LINKFLAGS += -s
-LINKFLAGS += $(shell $(SDL_CONFIG) --libs) -lSDL_image -lSDL_ttf
+LINKFLAGS += $(shell $(SDL_CONFIG) --libs) -lSDL_image -lSDL_ttf -flto
 
 CMD := @
 SUM := @echo
