@@ -7,7 +7,7 @@
 #define SW_BTN_RIGHT    SDLK_RIGHT
 #define SW_BTN_A        SDLK_SPACE
 #define SW_BTN_B        SDLK_LCTRL
-#define SW_BTN_X        SDLK_SHIFT
+#define SW_BTN_X        SDLK_LSHIFT
 #define SW_BTN_Y        SDLK_LALT
 #define SW_BTN_L1       SDLK_TAB
 #define SW_BTN_R1       SDLK_BACKSPACE
