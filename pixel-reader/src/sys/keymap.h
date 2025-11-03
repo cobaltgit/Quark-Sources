@@ -9,10 +9,10 @@
 #define SW_BTN_B        SDLK_LCTRL
 #define SW_BTN_X        SDLK_LSHIFT
 #define SW_BTN_Y        SDLK_LALT
-#define SW_BTN_L1       SDLK_e
-#define SW_BTN_R1       SDLK_t
-#define SW_BTN_L2       SDLK_TAB
-#define SW_BTN_R2       SDLK_BACKSPACE
+#define SW_BTN_L1       SDLK_TAB
+#define SW_BTN_R1       SDLK_BACKSPACE
+#define SW_BTN_L2       SDLK_PAGEUP
+#define SW_BTN_R2       SDLK_PAGEDOWN
 #define SW_BTN_SELECT   SDLK_RCTRL
 #define SW_BTN_START    SDLK_RETURN
 #define SW_BTN_MENU     SDLK_ESCAPE
