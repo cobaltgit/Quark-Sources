@@ -17,9 +17,7 @@ fn set_led(led: u8, on: bool) -> Result<(), Box<dyn std::error::Error>> {
 	Ok(())
 }
 
-fn fbscreenshot(output: String) -> Result<(), Box<dyn std::error::Error>> {
-    use std::fs;
-    
+fn fbscreenshot(output: String) -> Result<(), Box<dyn std::error::Error>> {    
     let stride = fs::read_to_string("/sys/class/graphics/fb0/stride")?
         .trim()
         .parse::<u32>()?;
