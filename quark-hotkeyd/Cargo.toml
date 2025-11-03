@@ -1,0 +1,18 @@
+cargo-features = ["panic-immediate-abort"]
+
+[package]
+name = "quark-hotkeyd"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+evdev = "0.13.2"
+image = { version = "0.25", default-features = false, features = ["png"] }
+time = "0.3.44"
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+panic = "immediate-abort"
+lto = true
+strip = true
