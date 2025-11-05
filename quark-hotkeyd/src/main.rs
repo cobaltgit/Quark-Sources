@@ -93,7 +93,7 @@ fn handler(pressed: &HashSet<KeyCode>) {
 		set_led(2, false);
 	}
 
-	if pressed.contains(&KeyCode::RIGHTCTRL) && pressed.contains(&KeyCode::ENTER) {
+	if pressed.contains(&KeyCode::KEY_RIGHTCTRL) && pressed.contains(&KeyCode::KEY_ENTER) {
 	    // todo: hold select + start for 10 seconds to reboot
 	}
 }
