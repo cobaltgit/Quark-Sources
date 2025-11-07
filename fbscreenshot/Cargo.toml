@@ -1,0 +1,17 @@
+cargo-features = ["panic-immediate-abort"]
+
+
+[package]
+name = "fbscreenshot"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+image = { version = "0.25", default-features = false, features = ["png"] }
+
+[profile.release]
+opt-level = 3
+codegen-units = 1
+panic = "immediate-abort"
+lto = true
+strip = true
