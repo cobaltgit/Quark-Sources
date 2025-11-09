@@ -1,7 +1,45 @@
 use image::{ImageBuffer, RgbaImage};
-use std::fs;
+use std::collections::HashSet;
+use std::{fs, thread, time};
 use std::io::Read;
+use sysinfo::{System, Signal, Pid, ProcessesToUpdate, ProcessRefreshKind};
 
+pub fn kill_cmd_to_run() {
+    let mut sys = System::new_all();
+    sys.refresh_processes_specifics(ProcessesToUpdate::All, true, ProcessRefreshKind::everything());
+
+    if let Some(cmd_to_run) = get_cmd_to_run(&sys) {
+        let mut tree: HashSet<Pid> = HashSet::new();
+        tree.insert(cmd_to_run);
+        get_children(&sys, cmd_to_run, &mut tree);
+
+        for pid in &tree {
+            if let Some(proc) = sys.process(*pid) {
+                proc.kill_with(Signal::Term);
+            }
+        }
+    }
+}
+
+fn get_cmd_to_run(sys: &System) -> Option<Pid> {
+    for (pid, proc) in sys.processes() {
+        if proc.cmd().iter().any(|arg| arg.to_string_lossy().contains("/tmp/cmd_to_run.sh")) {
+            return Some(*pid);
+        }
+    }
+    None
+}
+
+fn get_children(sys: &System, parent: Pid, pids: &mut HashSet<Pid>) {
+    for (pid, proc) in sys.processes() {
+        if let Some(ppid) = proc.parent() {
+            if ppid == parent {
+                pids.insert(*pid);
+                get_children(sys, *pid, pids)
+            }
+        }
+    }
+}
 
 pub fn set_led(led: u8, on: bool) -> Result<(), Box<dyn std::error::Error>> {
     let led_path = format!("/sys/devices/platform/sunxi-led/leds/led{}/trigger", led);
@@ -55,4 +93,4 @@ pub fn fbscreenshot(output: String) -> Result<(), Box<dyn std::error::Error>> {
     rotated.save(output)?;
 
     Ok(())
-}   
+}

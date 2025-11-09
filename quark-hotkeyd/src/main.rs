@@ -22,6 +22,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         HotkeyEvent {
             keys: vec![KeyCode::KEY_RIGHTCTRL, KeyCode::KEY_PAGEUP],
             callback: quicksave_handler
+        },
+        HotkeyEvent {
+            keys: vec![KeyCode::KEY_ENTER, KeyCode::KEY_PAGEUP],
+            callback: kill_handler
         }
     ];
 
@@ -62,4 +66,8 @@ fn quicksave_handler() {
     process::Command::new("/bin/sh")
         .arg("/mnt/SDCARD/System/scripts/quicksave.sh")
         .exec();
+}
+
+fn kill_handler() {
+    util::kill_cmd_to_run();
 }

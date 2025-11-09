@@ -8,6 +8,7 @@ edition = "2024"
 [dependencies]
 evdev = "0.13.2"
 image = { version = "0.25", default-features = false, features = ["png"] }
+sysinfo = "0.37.2"
 time = "0.3.44"
 
 [profile.release]
