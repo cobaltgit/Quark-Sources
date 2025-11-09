@@ -9,7 +9,7 @@ fn fbscreenshot(output: &str) -> Result<(), Box<dyn std::error::Error>> {
     let mut fb_data = Vec::new();
     fb_file.read_to_end(&mut fb_data)?;
     
-    let img: RgbaImage = ImageBuffer::from_fn(width, height, |x, y| {
+    let img: RgbaImage = ImageBuffer::from_fn(240, 320, |x, y| {
         let idx = (y * 480 + x * 2) as usize;
         if idx + 1 < fb_data.len() {
             let pixel = u16::from_le_bytes([fb_data[idx], fb_data[idx + 1]]);
