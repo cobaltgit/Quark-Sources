@@ -53,7 +53,6 @@ fn parse_system_json(input: &str) -> SystemConfig {
         }
     }
 
-    println!("{:?}", values);
     SystemConfig { values }
 }
 
@@ -137,11 +136,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                         sync();
                         reboot(RebootMode::RB_AUTOBOOT)?;
-                    } else {
-                        println!("Equality is great, don'tcha think?");
                     }
-                } else {
-                    println!("WHERE IS THE DAMN THEME PATH");
                 }
 
                 if let Some(new_volume) = get_volume(&json) {
