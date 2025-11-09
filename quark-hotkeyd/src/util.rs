@@ -1,6 +1,6 @@
 use image::{ImageBuffer, RgbaImage};
 use std::collections::HashSet;
-use std::{fs, thread, time};
+use std::{fs, time};
 use std::io::Read;
 use sysinfo::{System, Signal, Pid, ProcessesToUpdate, ProcessRefreshKind};
 
@@ -54,24 +54,12 @@ pub fn set_led(led: u8, on: bool) -> Result<(), Box<dyn std::error::Error>> {
 }
 
 pub fn fbscreenshot(output: String) -> Result<(), Box<dyn std::error::Error>> {    
-    let stride = fs::read_to_string("/sys/class/graphics/fb0/stride")?
-        .trim()
-        .parse::<u32>()?;
-    
-    let bits_per_pixel = fs::read_to_string("/sys/class/graphics/fb0/bits_per_pixel")?
-        .trim()
-        .parse::<u32>()?;
-    
     let mut fb_file = fs::File::open("/dev/fb0")?;
     let mut fb_data = Vec::new();
     fb_file.read_to_end(&mut fb_data)?;
-
-    let width = 240;
-    let height = 320;
-    let bytes_per_pixel = bits_per_pixel / 8;
     
-    let img: RgbaImage = ImageBuffer::from_fn(width, height, |x, y| {
-        let idx = (y * stride + x * bytes_per_pixel) as usize;
+    let img: RgbaImage = ImageBuffer::from_fn(240, 320, |x, y| {
+        let idx = (y * 480 + x * 2) as usize;
         if idx + 1 < fb_data.len() {
             let pixel = u16::from_le_bytes([fb_data[idx], fb_data[idx + 1]]);
             let r = ((pixel >> 11) & 0x1F) as u8;
