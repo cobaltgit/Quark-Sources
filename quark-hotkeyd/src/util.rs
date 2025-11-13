@@ -53,28 +53,24 @@ pub fn set_led(led: u8, on: bool) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-pub fn fbscreenshot(output: String) -> Result<(), Box<dyn std::error::Error>> {    
+pub fn fbscreenshot(output: &str) -> Result<(), Box<dyn std::error::Error>> {    
     let mut fb_file = fs::File::open("/dev/fb0")?;
-    let mut fb_data = Vec::new();
-    fb_file.read_to_end(&mut fb_data)?;
+    let mut fb_data = [0u8; 240 * 320 * 2];
+    fb_file.read_exact(&mut fb_data)?;
     
     let img: RgbaImage = ImageBuffer::from_fn(240, 320, |x, y| {
         let idx = (y * 480 + x * 2) as usize;
-        if idx + 1 < fb_data.len() {
-            let pixel = u16::from_le_bytes([fb_data[idx], fb_data[idx + 1]]);
-            let r = ((pixel >> 11) & 0x1F) as u8;
-            let g = ((pixel >> 5) & 0x3F) as u8;
-            let b = (pixel & 0x1F) as u8;
-            
-            image::Rgba([
-                (r << 3) | (r >> 2),
-                (g << 2) | (g >> 4),
-                (b << 3) | (b >> 2),
-                255
-            ])
-        } else {
-            image::Rgba([0, 0, 0, 255])
-        }
+        let pixel = u16::from_le_bytes([fb_data[idx], fb_data[idx + 1]]);
+        let r = ((pixel >> 11) & 0x1F) as u8;
+        let g = ((pixel >> 5) & 0x3F) as u8;
+        let b = (pixel & 0x1F) as u8;
+        
+        image::Rgba([
+            (r << 3) | (r >> 2),
+            (g << 2) | (g >> 4),
+            (b << 3) | (b >> 2),
+            255
+        ])
     });
 
     let rotated = image::imageops::rotate90(&img);

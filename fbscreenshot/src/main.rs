@@ -1,31 +1,27 @@
 use image::{ImageBuffer, RgbaImage};
 use std::env::args;
-use std::fs;
+use std::fs::File;
 use std::io::Read;
 use std::process::exit;
 
 fn fbscreenshot(output: &str) -> Result<(), Box<dyn std::error::Error>> {    
-    let mut fb_file = fs::File::open("/dev/fb0")?;
-    let mut fb_data = Vec::new();
-    fb_file.read_to_end(&mut fb_data)?;
+    let mut fb_file = File::open("/dev/fb0")?;
+    let mut fb_data = [0u8; 240 * 320 * 2];
+    fb_file.read_exact(&mut fb_data)?;
     
     let img: RgbaImage = ImageBuffer::from_fn(240, 320, |x, y| {
         let idx = (y * 480 + x * 2) as usize;
-        if idx + 1 < fb_data.len() {
-            let pixel = u16::from_le_bytes([fb_data[idx], fb_data[idx + 1]]);
-            let r = ((pixel >> 11) & 0x1F) as u8;
-            let g = ((pixel >> 5) & 0x3F) as u8;
-            let b = (pixel & 0x1F) as u8;
-            
-            image::Rgba([
-                (r << 3) | (r >> 2),
-                (g << 2) | (g >> 4),
-                (b << 3) | (b >> 2),
-                255
-            ])
-        } else {
-            image::Rgba([0, 0, 0, 255])
-        }
+        let pixel = u16::from_le_bytes([fb_data[idx], fb_data[idx + 1]]);
+        let r = ((pixel >> 11) & 0x1F) as u8;
+        let g = ((pixel >> 5) & 0x3F) as u8;
+        let b = (pixel & 0x1F) as u8;
+        
+        image::Rgba([
+            (r << 3) | (r >> 2),
+            (g << 2) | (g >> 4),
+            (b << 3) | (b >> 2),
+            255
+        ])
     });
 
     let rotated = image::imageops::rotate90(&img);
@@ -36,12 +32,14 @@ fn fbscreenshot(output: &str) -> Result<(), Box<dyn std::error::Error>> {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let argv: Vec<String> = args().collect();
-    if argv.len() == 1 {
-        eprintln!("usage: fbscreenshot <output>");
-        exit(1);
-    }
-
-    let output = &argv[1];
+    let output = match argv.get(1) {
+        Some(path) => path.as_str(),
+        None => {
+            eprintln!("usage: fbscreenshot <output>");
+            exit(1);
+        }
+    };
+    
     match fbscreenshot(output) {
         Ok(()) => {
             println!("fbscreenshot: Saved screenshot to '{output}'");

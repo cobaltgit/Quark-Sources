@@ -55,10 +55,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn screenshot_handler() {
     util::set_led(2, true);
     let now = OffsetDateTime::now_utc();
-    let timestamp = format!("{:04}{:02}{:02}_{:02}{:02}{:02}",
-        now.year(), now.month() as u8, now.day(),
-        now.hour(), now.minute(), now.second());
-    util::fbscreenshot(format!("/mnt/SDCARD/Saves/screenshots/Screenshot_{}.png", timestamp));
+    util::fbscreenshot(&format!("/mnt/SDCARD/Saves/screenshots/Screenshot_{:04}{:02}{:02}_{:02}{:02}{:02}.png", now.year(), now.month() as u8, 
+        now.day(), now.hour(), now.minute(), now.second()));
     util::set_led(2, false);
 }
 
