@@ -1,0 +1,14 @@
+[package]
+name = "fastreboot"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+libc = { version = "0.2.177", default-features = false }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
