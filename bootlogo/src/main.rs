@@ -5,7 +5,7 @@ use std::process::exit;
 
 fn validate_bmp(path: &str) -> Result<bool, std::io::Error> {
     let meta = metadata(&path)?;
-    
+
     if !meta.is_file() {
         eprintln!("{}: no such file", path);
         exit(1);
@@ -58,11 +58,9 @@ fn write_bootlogo(path: &str) -> io::Result<()> {
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let argv: Vec<String> = args().collect();
-    let bootlogo_path = if argv.len() > 1 {
-        &argv[1]
-    } else {
-        "bootlogo.bmp"
-    };
+    let bootlogo_path = argv.get(1)
+        .map(String::as_str)
+        .unwrap_or_else(|| "bootlogo.bmp");
 
     match validate_bmp(&bootlogo_path) {
         Err(e) => {
