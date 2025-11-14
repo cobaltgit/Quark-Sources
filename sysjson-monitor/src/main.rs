@@ -126,12 +126,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     if new_theme_path != theme_path {
                         let bootlogo_path = format!("{}skin/bootlogo.bmp", new_theme_path);
                         if fs::metadata(&bootlogo_path).is_ok() {
-                            Command::new("/bin/sh")
-                                .args(&[
-                                    "/mnt/SDCARD/Apps/BootLogo/bootlogo.sh",
-                                    &bootlogo_path,
-                                ])
-                                .exec();
+                            Command::new("/mnt/SDCARD/System/bin/bootlogo")
+                                .args(&[&bootlogo_path])
+                                .status();
                         }
 
                         sync();
