@@ -3,10 +3,11 @@ use inotify::{Inotify, WatchMask};
 use nix::unistd::sync;
 use nix::sys::reboot::{reboot, RebootMode};
 use std::collections::HashMap;
-use std::fs;
+use std::{fs, thread};
 use std::os::unix::fs::FileTypeExt;
 use std::os::unix::process::CommandExt;
 use std::process::Command;
+use std::time::Duration;
 
 pub struct SystemConfig {
     values: HashMap<String, String>,
@@ -82,9 +83,7 @@ fn set_volume(volume: i64) -> Result<(), Box<dyn std::error::Error>> {
         return Ok(());
     }
 
-    let mut mixer = Mixer::new("hw:1", false)?;
-    mixer.attach(c"default")?;
-    mixer.load()?;
+    let mixer = Mixer::new("hw:1", false)?;
 
     let selem_id = SelemId::new("PCM", 0);
     let selem = mixer
@@ -92,8 +91,9 @@ fn set_volume(volume: i64) -> Result<(), Box<dyn std::error::Error>> {
         .ok_or("PCM element not found")?;
 
     let (min, max) = selem.get_playback_volume_range();
-
-    selem.set_playback_volume_all(min + (max - min) * volume * 5 / 100)?;
+    
+    let vol = min + (max - min) * volume * 5 / 100;
+    selem.set_playback_volume_all(vol)?;
     Ok(())
 }
 
@@ -148,6 +148,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             
             if let Some(name) = event.name {
                 if name.to_string_lossy() == "audio1" && is_character_device("/dev/audio1") {
+                    thread::sleep(Duration::from_millis(100)); // wait for ALSA to initialise device
                     if let Ok(json) = get_system_json() {
                         if let Some(volume) = get_volume(&json) {
                             if let Err(e) = set_volume(volume) {
