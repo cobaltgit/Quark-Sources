@@ -3,6 +3,3 @@ rustflags = [
     "-C", "target-cpu=cortex-a7",
     "-C", "target-feature=+neon,+vfp4",
 ]
-
-[unstable]
-build-std = ["std"]
