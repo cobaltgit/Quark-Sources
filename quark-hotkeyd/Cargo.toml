@@ -7,7 +7,6 @@ edition = "2024"
 evdev = "0.13.2"
 image = { version = "0.25", default-features = false, features = ["png"] }
 libc = "0.2.180"
-memmap2 = "0.9.9"
 sysinfo = "0.37.2"
 time = "0.3.44"
 
